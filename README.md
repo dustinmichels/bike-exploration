@@ -22,7 +22,7 @@ pip install "rich[jupyter]"
 
 Add to .git/config:
 
-```txt
+```ini
 [filter "strip-notebook-output"]
     clean = "jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR"
 ```
