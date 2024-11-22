@@ -10,7 +10,19 @@ from fitparse.base import FitHeaderError
 type File = type[Path | str]
 
 
-def prepare_activities(df):
+class FitParseException(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
+def count_files(dir: File) -> int:
+    if isinstance(dir, str):
+        dir = Path(dir)
+    return len(list(dir.glob("*")))
+
+
+def process_activities_dataframe(df):
     # convert datetime
     df["Activity Date"] = pd.to_datetime(df["Activity Date"])
     # bike rides only
@@ -35,7 +47,7 @@ def prepare_activities(df):
 def unzip_file(filepath: File, out_dir: File) -> Path:
     """Unzip if file ends with .gz, otherwise just copy"""
 
-    # if filepath is .gpx.gz... no it isn't
+    # if file is .gpx.gz... no it isn't
     if isinstance(filepath, str) and filepath.endswith(".gpx.gz"):
         filepath = filepath.replace(".gpx.gz", ".gpx")
 
@@ -43,7 +55,7 @@ def unzip_file(filepath: File, out_dir: File) -> Path:
     if isinstance(filepath, str):
         filepath = Path(filepath)
     if isinstance(out_dir, str):
-        filepath = Path(filepath)
+        out_dir = Path(out_dir)
 
     # validate inputs
     if not filepath.is_file():
@@ -69,7 +81,7 @@ def unzip_file(filepath: File, out_dir: File) -> Path:
 # def parse_file(path: pathlib.PosixPath, unzip_dir: str):
 
 
-def convert_fit_file(filepath: File):
+def convert_fit_file(filepath: File) -> File:
     """
     Convert the fit file to a GPX file, delete the original, return the new filepath
     """
@@ -90,7 +102,10 @@ def convert_fit_file(filepath: File):
     out_file = filepath.with_suffix(".gpx")
 
     # convert the fit file to a gpx file
-    _fit_to_gpx(filepath, out_file)
+    try:
+        _fit_to_gpx(filepath, out_file)
+    except Exception as e:
+        raise FitParseException(f"Error converting {filepath}: {e}")
 
     # delete the fit file
     filepath.unlink()
@@ -146,9 +161,9 @@ def _fit_to_gpx(fit_filepath: File, gpx_filepath: File):
         gpx_file.write(gpx.to_xml())
 
 
-def extract_track_polyline(gpx_file_path):
+def extract_track_polyline(filepath: File) -> list[tuple[float, float]]:
     # Open the GPX file
-    with open(gpx_file_path, "r") as gpx_file:
+    with open(filepath, "r") as gpx_file:
         gpx = gpxpy.parse(gpx_file)
 
     # List to store the polyline
