@@ -12,7 +12,10 @@ See:
 ## env
 
 ```bash
-conda create -c conda-forge -n strava python=3.12 pandas jupyterlab
+conda create -c conda-forge -n strava python=3.12 pandas jupyterlab geopandas
+
+pip install gpxpy fitparse tqdm
+pip install "rich[jupyter]"
 ```
 
 ## jupyter notebook
