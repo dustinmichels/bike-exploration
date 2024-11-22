@@ -161,22 +161,22 @@ def _fit_to_gpx(fit_filepath: File, gpx_filepath: File):
         gpx_file.write(gpx.to_xml())
 
 
-def extract_track_polyline(filepath: File) -> list[tuple[float, float]]:
+def extract_multiline(filepath: File) -> list[tuple[float, float]]:
     # Open the GPX file
     with open(filepath, "r") as gpx_file:
         gpx = gpxpy.parse(gpx_file)
 
     # List to store the polyline
-    polyline = []
+    multiline = []
 
     # Iterate through tracks, segments, and points
     for track in gpx.tracks:
         for segment in track.segments:
             for point in segment.points:
                 # Append latitude and longitude as a tuple
-                polyline.append((point.latitude, point.longitude))
+                multiline.append((point.latitude, point.longitude))
 
-    return polyline
+    return multiline
 
 
 # Example usage

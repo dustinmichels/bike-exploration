@@ -9,7 +9,7 @@ from tqdm import tqdm
 from convert import (
     FitParseException,
     convert_fit_file,
-    extract_track_polyline,
+    extract_multiline,
     process_activities_dataframe,
     unzip_file,
 )
@@ -90,21 +90,23 @@ def convert_activities(df):
     return df
 
 
-def get_polylines(df):
-    polylines = []
+def extract_polylines(df):
+    geo = []
     for f in tqdm(list(df["new_path"])):
         try:
-            polyline = extract_track_polyline(filepath=f)
+            multiline = extract_multiline(filepath=f)
         except Exception as e:
-            polyline = np.nan
-        polylines.append(polyline)
-    df["polyline"] = polylines
+            multiline = np.nan
+        geo.append(multiline)
+    df["multiline"] = geo
 
-    # remove rows where polyline is missing
+    # remove rows where multiline is missing
     print(
-        "Removing {} rows with missing polylines".format(len(df[df["polyline"].isna()]))
+        "Removing {} rows with missing polylines".format(
+            len(df[df["multiline"].isna()])
+        )
     )
-    df = df[~df["polyline"].isna()]
+    df = df[~df["multiline"].isna()]
 
     return df
 
@@ -112,6 +114,9 @@ def get_polylines(df):
 def main(df):
     df = load_activities()
     df = unzip_activities(df)
+
+    # rename multiline column to "geometry"
+    df.rename(columns={"multiline": "geometry"}, inplace=True)
 
 
 if __name__ == "__main__":
