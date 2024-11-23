@@ -31,3 +31,9 @@ Create .gitattributes:
 ```txt
 *.ipynb filter=strip-notebook-output
 ```
+
+## QGIS Workflow
+
+- Set background to black
+- Add shapefile for a city
+-

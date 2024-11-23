@@ -5,7 +5,6 @@ from pathlib import Path
 import fitparse
 import gpxpy
 import pandas as pd
-from fitparse.base import FitHeaderError
 
 type File = type[Path | str]
 
@@ -76,9 +75,6 @@ def unzip_file(filepath: File, out_dir: File) -> Path:
         out_filepath = out_dir.joinpath(filepath.name)
         shutil.copy2(filepath, out_filepath)
         return out_filepath
-
-
-# def parse_file(path: pathlib.PosixPath, unzip_dir: str):
 
 
 def convert_fit_file(filepath: File) -> File:
@@ -173,8 +169,8 @@ def extract_multiline(filepath: File) -> list[tuple[float, float]]:
     for track in gpx.tracks:
         for segment in track.segments:
             for point in segment.points:
-                # Append latitude and longitude as a tuple
-                multiline.append((point.latitude, point.longitude))
+                # Append latitude and longitude as a tuple (in geojson order)
+                multiline.append((point.longitude, point.latitude))
 
     return multiline
 
