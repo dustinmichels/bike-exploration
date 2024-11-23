@@ -9,7 +9,7 @@ See:
 - https://medium.com/@tjukanov/animated-routes-with-qgis-9377c1f16021
 - https://anitagraser.com/projects/time-manager/
 
-## env
+## Setup
 
 ```bash
 conda create -c conda-forge -n strava python=3.12 pandas jupyterlab geopandas
@@ -17,7 +17,7 @@ pip install gpxpy fitparse tqdm
 pip install "rich[jupyter]"
 ```
 
-## jupyter notebook
+### jupyter notebook
 
 Add to .git/config:
 
@@ -31,6 +31,10 @@ Create .gitattributes:
 ```txt
 *.ipynb filter=strip-notebook-output
 ```
+
+## Usage
+
+Bulk download all the strava data and put it somewhere, like `data/strava`.
 
 ## QGIS Workflow
 

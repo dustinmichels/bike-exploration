@@ -1,5 +1,9 @@
-data/
+data/strava
+data/checkpoints
+data/*.zip
 out/
+
+*.qgz
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,r,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,r,macos
