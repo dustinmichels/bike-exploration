@@ -19,14 +19,16 @@ pip install "rich[jupyter]"
 
 ### jupyter notebook
 
-Add to .git/config:
+So that only the code is saved in the notebook, and not the output,
+
+I added to .git/config:
 
 ```ini
 [filter "strip-notebook-output"]
     clean = "jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR"
 ```
 
-Create .gitattributes:
+And created .gitattributes:
 
 ```txt
 *.ipynb filter=strip-notebook-output

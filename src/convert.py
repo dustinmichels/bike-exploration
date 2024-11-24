@@ -15,68 +15,6 @@ class FitParseException(Exception):
         super().__init__(self.message)
 
 
-def count_files(dir: File) -> int:
-    if isinstance(dir, str):
-        dir = Path(dir)
-    return len(list(dir.glob("*")))
-
-
-def process_activities_dataframe(df):
-    # convert datetime
-    df["Activity Date"] = pd.to_datetime(df["Activity Date"])
-    # bike rides only
-    df = df[df["Activity Type"].isin(["Ride", "E-Bike Ride"])].reset_index(drop=True)
-    # select cols
-    df = df[
-        [
-            "Activity ID",
-            "Activity Date",
-            "Activity Type",
-            "Activity Name",
-            "Elapsed Time",
-            "Distance",
-            "Filename",
-        ]
-    ]
-    # remove rows where filename is missing
-    df = df[~df["Filename"].isna()]
-    return df
-
-
-def unzip_file(filepath: File, out_dir: File) -> Path:
-    """Unzip if file ends with .gz, otherwise just copy"""
-
-    # if file is .gpx.gz... no it isn't
-    if isinstance(filepath, str) and filepath.endswith(".gpx.gz"):
-        filepath = filepath.replace(".gpx.gz", ".gpx")
-
-    # if input is string, convert to pathlib.PosixPath
-    if isinstance(filepath, str):
-        filepath = Path(filepath)
-    if isinstance(out_dir, str):
-        out_dir = Path(out_dir)
-
-    # validate inputs
-    if not filepath.is_file():
-        raise FileNotFoundError(f"File {filepath} does not exist")
-    if not out_dir.is_dir():
-        raise NotADirectoryError(f"Directory {out_dir} does not exist")
-
-    # if file ends with .gz, unzip it
-    if filepath.suffix == ".gz":
-        out_filepath = out_dir.joinpath(filepath.name.replace(".gz", ""))
-        with gzip.open(filepath, "rb") as f_in:
-            with open(out_filepath, "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
-        return out_filepath
-
-    # otherwise, just copy the file
-    else:
-        out_filepath = out_dir.joinpath(filepath.name)
-        shutil.copy2(filepath, out_filepath)
-        return out_filepath
-
-
 def convert_fit_file(filepath: File) -> File:
     """
     Convert the fit file to a GPX file, delete the original, return the new filepath
@@ -155,25 +93,3 @@ def _fit_to_gpx(fit_filepath: File, gpx_filepath: File):
     # write GPX to a file
     with open(gpx_filepath, "w") as gpx_file:
         gpx_file.write(gpx.to_xml())
-
-
-def extract_multiline(filepath: File) -> list[tuple[float, float]]:
-    # Open the GPX file
-    with open(filepath, "r") as gpx_file:
-        gpx = gpxpy.parse(gpx_file)
-
-    # List to store the polyline
-    multiline = []
-
-    # Iterate through tracks, segments, and points
-    for track in gpx.tracks:
-        for segment in track.segments:
-            for point in segment.points:
-                # Append latitude and longitude as a tuple (in geojson order)
-                multiline.append((point.longitude, point.latitude))
-
-    return multiline
-
-
-# Example usage
-# fit_to_gpx("example.fit", "output.gpx")
