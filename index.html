@@ -3,16 +3,156 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Bike Animations</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
-      integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls"
-      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bulma/css/bulma.min.css"
     />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background-color: #2b2b2b;
+        color: #f5f5f5;
+      }
+      .header {
+        background-color: #1a1a1a;
+        color: #f5f5f5;
+        padding: 1rem;
+        text-align: center;
+      }
+      .grid-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 3rem);
+        justify-content: space-between;
+      }
+      .grid-item {
+        background-color: #3c3c3c;
+        border: 1px solid #4c4c4c;
+        padding: 2rem;
+        text-align: center;
+        flex-grow: 1;
+      }
+      .dark-background {
+        background-color: #3c3c3c;
+      }
+      .columns {
+        flex-grow: 1;
+      }
+      .table {
+        border-collapse: collapse;
+      }
+      .table tr {
+        border: none;
+      }
+    </style>
   </head>
   <body>
-    <h1>This is a header</h1>
-    <img src="outfile.gif" alt="gif" style="width: 400px" />
+    <header class="header">
+      <h1>Bike exploration animations</h1>
+      <h1>Dustin Michels</h1>
+    </header>
+
+    <div class="grid-container">
+      <div class="container">
+        <div class="columns is-multiline">
+          <div class="column is-half">
+            <div class="grid-item">
+              <img src="img/gothenburg.gif" alt="" />
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="grid-item">
+              <h2 class="title is-5 has-text-light">Gothenburg, Sweden</h2>
+              <table
+                class="table is-narrow is-fullwidth dark-background has-text-light"
+              >
+                <tbody>
+                  <tr>
+                    <td class="has-text-light">Time range</td>
+                    <td class="has-text-light">
+                      2020-04-05 to 2021-04-23 (383 days)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-light">Num routes</td>
+                    <td class="has-text-light">223</td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-light">Total distance</td>
+                    <td class="has-text-light">3,757 miles</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="column is-half">
+            <div class="grid-item">
+              <img src="img/denver.gif" alt="" />
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="grid-item">
+              <h2 class="title is-5 has-text-light">Denver, Colorado, USA</h2>
+
+              <table
+                class="table is-narrow is-fullwidth dark-background has-text-light"
+              >
+                <tbody>
+                  <tr>
+                    <td class="has-text-light">Time range</td>
+                    <td class="has-text-light">
+                      2021-08-06 to 2022-11-14 (465 days)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-light">Num routes</td>
+                    <td class="has-text-light">179</td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-light">Total distance</td>
+                    <td class="has-text-light">2,605 miles</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="column is-half">
+            <div class="grid-item">
+              <img src="img/boston.gif" alt="" />
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="grid-item">
+              <h2 class="title is-5 has-text-light">Boston, MA, USA</h2>
+              <table
+                class="table is-narrow is-fullwidth dark-background has-text-light"
+              >
+                <tbody>
+                  <tr>
+                    <td class="has-text-light">Time range</td>
+                    <td class="has-text-light">
+                      2023-03-06 to 2024-11-15 (619 days)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-light">Num routes</td>
+                    <td class="has-text-light">300</td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-light">Total distance</td>
+                    <td class="has-text-light">5,643 miles</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
